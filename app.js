@@ -1,16 +1,23 @@
 var express = require('express'),
     levelup = require('levelup'),
 
-    db = levelup(process.env.LEVEL_DB || 'db'),
+    db = levelup(process.argv[2], {
+        cacheSize: 8 * 1024 * 1024 * 1024, // 8 GB
+        valueEncoding: 'binary'
+    }),
+
     app = express();
 
 app.get('/*', function (req, res) {
     var tms = req.path.substring(1);
-    db.get(tms, {'valueEncoding': 'binary'}, function (err, data) {
+    db.get(tms, function (err, data) {
         if (err || !data) {
             res.send(404, req.path);
         } else {
-            res.header('Content-Type', 'image/png');
+            res.set({
+                'Content-Type': 'image/png',
+                'Cache-Control': 'public, max-age=3600'
+            });
             res.end(data, 'binary');
         }
     });
