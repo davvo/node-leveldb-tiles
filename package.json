@@ -1,0 +1,17 @@
+{
+  "name": "node-leveldb-tiles",
+  "version": "0.0.0",
+  "description": "Serve map tiles stored in leveldb",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~3.4.8",
+    "tar": "~0.1.19",
+    "levelup": "~0.18.2",
+    "leveldown": "~0.10.2"
+  }
+}
