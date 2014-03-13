@@ -11,12 +11,15 @@ var express = require('express'),
 app.get('/*', function (req, res) {
     var tms = req.path.substring(1);
     db.get(tms, function (err, data) {
-        if (err || !data) {
-            res.send(404, req.path);
+        if (err) {
+            res.end(500, err.message);
+        } else if (!data) {
+            res.end(404, req.path);
         } else {
             res.set({
                 'Content-Type': 'image/png',
-                'Cache-Control': 'public, max-age=3600'
+                'Content-Length': data.length,
+                'Cache-Control': 'public, max-age=604800'
             });
             res.end(data, 'binary');
         }
